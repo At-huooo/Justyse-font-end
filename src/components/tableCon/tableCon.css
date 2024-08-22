@@ -1,0 +1,120 @@
+.Frame {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  border-radius: 20px;
+  box-shadow: 0.5px 0.7px 12px rgba(0, 0, 0, 0.25);
+}
+
+table {
+  border-collapse: separate; /* Required for border-radius to work on table */
+  width: 100%; /* Full width */
+  overflow: hidden; /* Ensure content does not overflow outside the rounded corners */
+  border-spacing: 10px; /* Adjust the spacing between cells */
+}
+
+thead {
+  background-color: var(--accent-color-dark);
+  color: white; /* Ensure text color is readable */
+  text-align: center;
+  position: sticky; /* Optional: makes the header sticky */
+  top: 0; /* Sticks the header to the top of the table container */
+  z-index: 1; /* Ensure header stays on top of other content */
+  border-radius: 10px;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+table {
+  border-collapse: collapse; /* Ensures borders are collapsed and aligned */
+}
+
+td {
+  background-color: rgb(235, 255, 203); /* Alternate row background color */
+  border-top: none;
+  border-left: none;
+  padding: 1rem 5rem;
+}
+
+tr td:last-child,
+tr th:last-child {
+  border-right: none;
+  text-align: center;
+}
+
+th:last-child {
+  width: 30%;
+}
+
+th:first-child {
+  width: 70%;
+}
+
+tbody td:first-child {
+  font-weight: bold;
+  width: 70%;
+}
+
+tbody td:last-child {
+  font-weight: bold;
+  width: 30%;
+}
+
+img {
+  width: 10.5rem;
+  height: 13.5rem;
+}
+
+.no-data {
+  margin: auto;
+  padding: auto;
+}
+
+.errormes {
+  color: black;
+}
+
+.link {
+  margin-bottom: 0.2rem;
+  color: var(--accent-color-darker);
+}
+
+.tc {
+  padding: 1rem 4rem;
+}
+
+.Names {
+  padding: 1rem 0rem;
+  padding-left: 4rem;
+  padding-right: 52.1rem;
+}
+
+tr {
+  display: flex;
+  width: 100%;
+}
+
+.addItem {
+  position: absolute;
+  bottom: 5rem;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 0.3rem;
+  background-color: var(--accent-color-dark);
+  color: white;
+  right: 5rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.Loading {
+  color: var(--accent-color-darker);
+}

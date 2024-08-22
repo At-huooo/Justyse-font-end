@@ -1,0 +1,171 @@
+.rank {
+  border-radius: 1rem;
+  width: 76%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0.5px 0.7px 12px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+  table-layout: fixed;
+}
+
+.rank_side {
+  margin: 0 1rem;
+  margin-right: 0;
+  width: 24%;
+  height: 100%;
+}
+
+.nav_tab {
+  position: absolute;
+  display: flex;
+  bottom: 0.7rem;
+  border-radius: 1rem;
+  width: auto;
+  background-color: var(--accent-color-dark);
+  padding: 0.3rem 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.rankFrame {
+  overflow-x: auto;
+  margin: 0.5rem;
+  display: flex;
+  width: 100%;
+  height: 95%;
+}
+
+.nav_tab div {
+  margin: 0 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: var(--accent-color-darker);
+  color: white;
+  cursor: pointer;
+}
+
+.rank td {
+  color: black;
+  text-align: center;
+  padding: 1.03rem 2rem;
+  transition: height 0.3s ease;
+}
+
+.rank th:first-child,
+.rank td:first-child {
+  max-width: 25%;
+  width: 25%;
+}
+.rank th,
+.rank td {
+  max-width: 25%;
+  width: 25%;
+}
+
+
+.nav_tab button {
+  margin: 0.3rem;
+  background-color: var(--accent-color-dark);
+  margin-top: 0;
+  color: var(--accent-color-light);
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+  border: none;
+  height: 2em;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.nav_tab button.active {
+  background-color: rgb(252, 240, 225);
+  color: var(--accent-color-darker);
+}
+
+.idHolder {
+  width: 100%;
+  display: flex;
+  row-gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.idHolder div {
+  text-align: center;
+  padding: 0.7rem;
+  height: 2.4rem;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0.1rem;
+  color: var(--accent-color-darker);
+  background-color: var(--accent-color-light);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.rankBtn {
+  background-color: var(--accent-color-dark);
+  color: white;
+  padding: 0.5rem 0;
+  height: 30%;
+  width: 100%;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.rank_side h3 {
+  color: var(--accent-color-darker);
+  margin: 0.5rem;
+  border-bottom: 1px solid var(--accent-color-light);
+}
+
+.sideBottom {
+  height: 57%;
+  overflow: auto;
+}
+
+.idHolder div:hover {
+  background-color: #99be8d;
+  color: white;
+}
+
+.rankTitle {
+  background-color: var(--primary-color);
+  border-radius: 1rem;
+  width: 90%;
+  overflow-y: auto;
+  font-weight: bold;
+  height: 3rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.downloadBtn {
+  background-color: var(--accent-color-dark);
+  color: white;
+  padding: 0.5rem 0;
+  height: 25%;
+  cursor: pointer;
+  font-family: "Rubik", sans-serif;
+  width: 100%;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  padding: 0.2rem;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.downloadBtn:hover {
+  background-color: #5e8562;
+}
+
+.idHolder div.active{
+  background-color: #598849;
+  color: white;
+}
+
+.Loading{
+  color: var(--accent-color-darker);
+  font-size: 1.5rem;
+  margin: 15% 20%;
+}

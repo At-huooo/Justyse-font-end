@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import 'boxicons';
 import axios from "axios";
-import "./rankBroad.css";
+import "./RankBroad.css";
 
-const RankBroad = () => {
+export default function () {
   const apiUrl = "https://barely-aware-walrus.ngrok-free.app";
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQGFkbWluIiwiZXhwIjoxNzI0ODc4NjM2fQ.dH2fsgyEjsIaf-S4KO6Ilp5PCQASUlV_k-nCvOLY7ik";
@@ -12,18 +13,21 @@ const RankBroad = () => {
   const [paginationStart, setPaginationStart] = useState(1);
   const [rankData, setrankData] = useState([]);
   const [problemsDetail, setProblemsDetail] = useState([]);
-  const [clickedAll, setClickedAll] = useState(false);
   const [clickedItemId, setClickedItemId] = useState(null);
   const [clickedItemIndex, setClickedItemIndex] = useState(null);
+  const [Loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(
+    "No leaderbroad choosen yet."
+  );
 
   const totalPages = Math.ceil(rankData.length / itemsPerPage);
 
-  const onClickedAll = () => {
-    setClickedAll(true);
-  };
-  const offClickedAll = () => {
-    setClickedAll(false);
-  };
+  // const onClickedAll = () => {
+  //   setClickedAll(true);
+  // };
+  // const offClickedAll = () => {
+  //   setClickedAll(false);
+  // };
 
   const ChangePage = (page) => {
     setCurrentPage(page);
@@ -55,10 +59,13 @@ const RankBroad = () => {
 
   const { start, end } = getPaginationRange();
 
-  const renderAll = async () => {
+  const render = async (id) => {
+    setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/api/problems/statics?to_file=false`,
+        id === "@all"
+          ? `${apiUrl}/api/problems/statics?to_file=false`
+          : `${apiUrl}/api/problem/${id}/statics?to_file=false`,
         {
           headers: {
             "ngrok-skip-browser-warning": "true",
@@ -66,36 +73,26 @@ const RankBroad = () => {
           },
         }
       );
-      if (res.status > 300 || res.status < 200) {
-        throw new Error(`Rank getting error,${res.data} `);
-      }
-      const result = await res.data.slice(1);
-      setrankData(result);
-      console.log("GET, All rank Success");
-    } catch (error) {
-      console.log("GET, Rank: ", error);
-    }
-  };
 
-  const renderItem = (id) => async () => {
-    try {
-      const res = await axios.get(
-        `${apiUrl}/api/problems/${id}/statics?to_file=false`,
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
       if (res.status > 300 || res.status < 200) {
-        throw new Error(`Item Rank getting error,${res.data} `);
+        throw new Error(res.data);
       }
-      const result = await res.data.slice(1);
-      console.log("GET, Item rank Success");
+
+      let result = await res.data;
+      if (!result || result.length === 0) {
+        setLoadingMessage("No data available");
+        setrankData([]);
+        return;
+      }
+      if (id === "@all") result = result.slice(1);
+
       setrankData(result);
+      console.log("GET, Item rank Success");
+      console.dir(result);
     } catch (error) {
       console.log("GET, Item Rank: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,45 +116,42 @@ const RankBroad = () => {
     }
   };
 
-  const downloadstatic = async (id) => {
-    if (clickedAll) {
-      try {
-        const res = await axios.get(
-          `${apiUrl}/api/problems/statics?to_file=true&redirect=false&download=true`,
-          {
-            headers: {
-              "ngrok-skip-browser-warning": "true",
-              Authorization: `Bearer ${token}`,
-            },
-            timeout: 10000,
-          }
-        );
-        if (res.status > 300 || res.status < 200) {
-          throw new Error(`Error fetching statics: ${res.data}`);
+  const downloadstatic = async (id, Name) => {
+    try {
+      const res = await axios.get(
+        id === "@all"
+          ? `${apiUrl}/api/problems/statics?to_file=true&redirect=false&download=true`
+          : `${apiUrl}/api/problem/${id}/statics?to_file=true&redirect=false&download=true`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+            Authorization: `Bearer ${token}`,
+          },
+          timeout: 10000,
+          responseType: "blob", // Ensure the response is a Blob
         }
-        setrankData(res.data);
-      } catch (error) {
-        console.error(`GET, statics: `, error);
+      );
+      if (res.status > 300 || res.status < 200) {
+        throw new Error(`Error fetching statics: ${res.data}`);
       }
-    } else {
-      try {
-        const res = await axios.get(
-          `${apiUrl}/api/problems/${id}/statics?to_file=true&redirect=false&download=true`,
-          {
-            headers: {
-              "ngrok-skip-browser-warning": "true",
-              Authorization: `Bearer ${token}`,
-            },
-            timeout: 10000,
-          }
-        );
-        if (res.status > 300 || res.status < 200) {
-          throw new Error(`Error fetching statics: ${res.data}`);
-        }
-        setrankData(res.data);
-      } catch (error) {
-        console.error(`GET, statics: `, error);
-      }
+
+      // Create a Blob from the response data
+      const blob = new Blob([res.data], {
+        type: res.headers["content-type"],
+      });
+      // Create a URL for the Blob
+      const url = window.URL.createObjectURL(blob);
+      // Create a temporary anchor element
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${id === "@all" ? Name : "All"}_data.csv`; // Set the desired file name
+      document.body.appendChild(a);
+      a.click();
+      // Clean up
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log("GET, Problem: ", error);
     }
   };
 
@@ -167,6 +161,20 @@ const RankBroad = () => {
 
   return (
     <div className="c">
+      {Loading && (
+        <div className="popHolder">
+          <div className="outer"></div>
+          <div className="Loading">
+            <box-icon
+              name="loader-circle"
+              animation="spin"
+              color="#509c7c"
+            ></box-icon>{" "}
+            Loading...
+          </div>
+        </div>
+      )}
+
       <div className="nav_tab">
         <button onClick={PreviousRange} disabled={paginationStart === 1}>
           <box-icon name="chevrons-left" size={10} color="#fff4e7"></box-icon>
@@ -184,61 +192,105 @@ const RankBroad = () => {
           <box-icon name="chevrons-right" size={10} color="#fff4e7"></box-icon>
         </button>
       </div>
+
       <div className="rankFrame">
         <div className="rank">
           {rankData.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Total Score</th>
-                  {problemsDetail.map((item) => (
-                    <th key={item.id}>{item.title}</th>
-                  ))}
-                  {" "}
-                </tr>
-              </thead>
-              <tbody>
-                {rankData.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <td key={cellIndex}>{cell}</td>
-                    ))}
+            clickedItemId === "@all" ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Total Score</th>
+                    {problemsDetail.map((item) => (
+                      <th key={item.id}>{item.title}</th>
+                    ))}{" "}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {rankData.map((row, rowIndex) => {
+                    console.log({ clickedItemId, row });
+                    return (
+                      <tr key={rowIndex}>
+                        {row.map((cell, cellIndex) => (
+                          <td key={cellIndex}>{cell}</td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th className="Position">Rank</th>
+                    <th className="User">User</th>
+                    <th className="Lang">Language</th>
+                    <th>Points</th>
+                    <th>Status</th>
+                    <th>Time (seconds)</th>
+                    <th>Memory - peak</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rankData.map((item, index) => {
+                    console.log({ clickedItemId, item });
+                    return (
+                      <tr key={index}>
+                        <td className="Position">{index + 1}</td> 
+                        <td className="User">{item.by}</td>
+                        <td className="Lang">
+                          {item.lang[0]} | {item.lang[1]}
+                        </td>
+                        <td>{item.result?.point}</td>
+                        <td>{item.result?.status}</td>
+                        <td>{Math.ceil(item.result?.time * 1000) / 1000}</td>
+                        <td>{item.result?.memory[0]}</td>
+                        <td>{item.result?.memory[1]}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )
           ) : (
             <p className="Loading">
-              No leaderborad choosen yet.{" "}
-              <box-icon color="#1A4D2E" name="book-open"></box-icon>{" "}
+              {loadingMessage} <box-icon type='solid' color="#4F6F52" name='message-square-x'></box-icon>
             </p>
           )}
         </div>
         <div className="rank_side">
+          <h4 className="rankTitle">
+            Rank -{" "}
+            {clickedItemId === "@all"
+              ? "All"
+              : problemsDetail[clickedItemIndex]?.title}
+          </h4>
           <div className="rankBtn">
-            <h4 className="rankTitle">
-              Rank -{" "}
-              {clickedAll ? "All" : problemsDetail[clickedItemIndex]?.title}
-            </h4>
             <button
               className="downloadBtn"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent triggering the div's onClick
-                downloadstatic(clickedItemId);
+                downloadstatic(
+                  clickedItemId,
+                  problemsDetail[clickedItemIndex]?.title
+                );
               }}
             >
-              Download
+              <span> Download </span>
+              <box-icon name="download" type="solid" color="#ffffff"></box-icon>
             </button>
           </div>
           <h3>Problem </h3>
           <div className="sideBottom">
             <div className="idHolder">
               <div
-                className={`${clickedAll ? "active" : ""}`}
-                onClick={(e) => {
-                  renderAll();
-                  onClickedAll();
+                className={`${clickedItemId === "@all" ? "active" : ""}`}
+                onClick={async () => {
+
+                  await render("@all");
+                  setClickedItemId("@all");
                 }}
               >
                 All Problem
@@ -246,14 +298,15 @@ const RankBroad = () => {
               {problemsDetail.map((item, index) => (
                 <div
                   className={`${
-                    clickedItemId === item.id && !clickedAll ? "active" : ""
+                    clickedItemId === item.id // && !clickedAll ? "active" : ""
                   }`}
                   key={item.id}
-                  onClick={(e) => {
+                  onClick={async (e) => {
+                    // offClickedAll();
+                    // setClickedAll(false)
+                    await render(item.id);
                     setClickedItemId(item.id);
                     setClickedItemIndex(index);
-                    renderItem(item.id);
-                    offClickedAll();
                   }}
                 >
                   {item.title}
@@ -266,5 +319,3 @@ const RankBroad = () => {
     </div>
   );
 };
-
-export default RankBroad;

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { TiHome } from "react-icons/ti";
-import userimg from '../../assets/funny.png';
+import userimg from "../../assets/funny.png";
 import { FaServer, FaList } from "react-icons/fa";
 import { RiTerminalBoxFill } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
-import './Navbarstyle.css';
-import { SiRedhatopenshift } from 'react-icons/si';
-import { Outlet, Link } from "react-router-dom";
+import "./NavBar.css";
+
+import { Link } from "react-router-dom";
 
 // Individual Navbar Item Component
 function NavbarItem({ icon, label, link, tooltip }) {
   return (
-    <li>
+    <li id={label}>
       <Link to={link}>
         {icon}
         <span className="nav-item">{label}</span>
@@ -51,13 +51,18 @@ function NavbarHeader({ toggleSidebar }) {
 // Main Navbar Component
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
 
   const toggleSidebar = () => {
     setOpen(!open);
   };
 
   return (
-    <div className={`sidebar ${open ? 'open' : 'closed'}`}>
+    <div className={`sidebar ${open ? "open" : "closed"}`}>
       <NavbarHeader toggleSidebar={toggleSidebar} />
       <UserInfo />
       <ul>
@@ -80,7 +85,7 @@ function Navbar() {
           tooltip="Problems"
         />
         <NavbarItem
-          icon={<FaList size={22} />}
+          icon={<FaList size={20} />}
           label="Submission"
           link="/submission"
           tooltip="Submission"

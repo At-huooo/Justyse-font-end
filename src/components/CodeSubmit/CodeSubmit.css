@@ -1,0 +1,210 @@
+.Submit {
+  height: 100%;
+  width: 100%;
+}
+
+.Submit .space {
+  width: 100%;
+  height: 100%;
+  margin: 2rem 0;
+}
+.Submit .Title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.Submitbtn {
+  display: flex;
+  justify-items: center;
+  align-self: center;
+  margin: 1rem 0;
+  padding: 0.2rem 0.7rem;
+  border: none;
+  font-size: 1.3rem;
+  background-color: var(--accent-color-netrual);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Submitbtn span {
+  color: white;
+}
+
+.Submitbtn:hover {
+  background-color: #79be9e;
+}
+
+.Submit .NoData {
+  z-index: 11;
+  position: absolute;
+}
+
+.Submit .description {
+  margin: 0 2rem;
+  width: 95%;
+  height: auto;
+}
+
+.Submit .description *{
+  color: var(--accent-color-dark);
+}
+
+.problemRender {
+  width: 100%;
+  height: auto;
+}
+
+.dividerSubmit {
+  width: 95%;
+  height: 0;
+  border: 1px solid rgba(121, 167, 123, 0.582);
+  margin: 2rem;
+}
+
+.submitFrame {
+  position: relative;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  border: 4px solid rgb(186, 194, 116);
+  border-radius: 0 1rem 1rem 0;
+  margin: 2rem;
+}
+
+.editor {
+  width: 83%;
+  height: 100%;
+}
+
+.langCom {
+  height: 100%;
+  width: 17%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.langChoices {
+  width: 100%;
+  height: 50%;
+  background-color: #bfd38f;
+  border-radius: 0 0.6rem 0 0;
+  padding: 1rem;
+}
+
+.compileChoices {
+  width: 100%;
+  height: 50%;
+  border-radius: 0 0 0.6rem 0;
+  background-color: #fde9d0;
+  padding: 1rem 0.5rem 0 1rem;
+}
+
+.compileChoices h3 {
+  color: var(--accent-color-netrual);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.compileChoices * {
+  font-weight: 300;
+  color: var(--accent-color-dark);
+}
+.compileChoices span {
+  color: var(--accent-color-darker);
+  font-weight: 600;
+}
+
+.langChoices * {
+  color: whitesmoke;
+  font-weight: 300;
+}
+
+.langChoices span {
+  color: var(--accent-color-dark);
+  font-weight: 600;
+}
+
+.langChoices h3 {
+  color: white;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.langbtns{
+  border: none;
+  font-size: 1rem;
+  margin: .2rem .3rem;
+  padding: .3rem .5rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  background-color: #aec776;
+}
+
+.langbtns:hover {
+  background-color: #bfdb83;
+}
+
+.langbtns.selected {
+  background-color: rgb(135, 197, 126);
+
+  color: white;
+}
+
+.langcontain{
+  width: 100%;
+  height: 15rem;
+  margin: .2rem;
+  overflow-y: scroll;
+}
+
+.compilerbtns{
+  border: none;
+  font-size: 1rem;
+  margin: .2rem .3rem;
+  padding: .3rem .5rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  background-color: #eceab2;
+}
+
+.compilerbtns:hover {
+  background-color: #e2dba7;
+}
+
+.compileChoices .compilerbtns.selected {
+  background-color: #e7f184;
+}
+
+.dividerSubmit.head{
+  margin-top: .5rem;
+}
+
+.Submit .headTitle{
+  font-size: 1.5rem;
+  font-family:Verdana, Tahoma, sans-serif;
+  font-weight: 600;
+  margin: 1rem 0;
+  color: var(--accent-color-netrual);
+}
+
+.Submit .submitbtn{
+  position: absolute;
+  bottom: -0.3rem;
+  font-size: 1.05rem;
+  background-color: #bfd38f;
+  right: 1rem;
+  border: none;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  padding: .5rem;
+  color: rgb(36, 82, 30);
+  border-radius: 5px;
+  margin: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.Submit .submitbtn:hover{
+  background-color: #d3eea5;
+}

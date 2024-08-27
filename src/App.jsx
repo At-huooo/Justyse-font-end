@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/NavBar/NavBar';
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,9 +10,9 @@ import Judges from './pages/Judges';
 import Problems from './pages/Problems';
 import Users from './pages/Users';
 import Submission from './pages/Submission';
-import Config_create from './pages/Config_create';
-import Item_Config from './pages/Item_Config';
-
+import Submit from './pages/Submit';
+import ProblemCreate from './pages/ProblemCreate';
+import ProblemConfig from './pages/ProblemConfig';
 function App() {
   return (
     <Router>
@@ -22,9 +22,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/judges" element={<Judges />} />
           <Route path="/problems" element={<Problems />} />
-          <Route path="problems/config_create" element={<Config_create />} />
-          <Route path="problems/config" element={<Item_Config />} />
+          <Route path="/problems/create" element={<ProblemCreate />} />
+          <Route path="/problems/config" element={<ProblemConfig />} />
           <Route path="/submission" element={<Submission />} />
+          <Route path="/problems/submit" element={<Submit/>} />
           <Route path="/users" element={<Users />} />
           <Route path="/logout" element={<LogoutPage />} />
         </Routes>

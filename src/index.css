@@ -1,17 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 :root {
   --primary-color: #fff4e7;
-  --secondary-color: #CADABF;
-  --accent-color-darker: #1A4D2E;
-  --accent-color-light: #BDD2B6;
-  --accent-color-dark: #4F6F52;
-  --accent-color-lighter:  rgba(245, 255, 250, 1);
+  --secondary-color: #cadabf;
+  --accent-color-darker: #1a4d2e;
+  --accent-color-light: #bdd2b6;
+  --accent-color-dark: #4f6f52;
+  --accent-color-lighter: rgba(245, 255, 250, 1);
   --accent-color-netrual: #509c7c;
 }
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  scrollbar-width: thin; /* Options: auto, thin, none */
+  scrollbar-color: #66815e #edffdc; /* thumb color, track color */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -35,31 +37,60 @@ h2 {
   font-size: 2rem;
 }
 
-.container{
-  width: 90%;
+.container {
+  width: 93%;
   padding: 1rem;
   height: 35rem;
   margin: 1rem 6rem;
-  transition: all .3s ease-in-out;
+  padding-right: 0;
+  transition: all 0.3s ease-in-out;
 }
 
-.sidebar.open ~ .container{
+.sidebar.open ~ .container {
   width: 80%;
   margin-left: 14rem;
 }
 
 .button {
-  background-image: linear-gradient(45deg,var(--accent-color-dark) 0%, var(--accent-color-light) 100%);
+  background-image: linear-gradient(
+    45deg,
+    var(--accent-color-dark) 0%,
+    var(--accent-color-light) 100%
+  );
   border: 1px solid var(--secondary-color);
   color: #fff;
-  padding: .7rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
   font-family: "Rubik", sans-serif;
 }
 
- 
+/* Target the scrollbar */
+::-webkit-scrollbar {
+  width: 4px; /* Width of the vertical scrollbar */
+  height: 4px; /* Height of the horizontal scrollbar */
+}
 
+/* Track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #edffdc; /* Light background color */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #66815e; /* Darker color for the scrollbar thumb */
+  border-radius: 10px; /* Round the corners */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #52684c; /* Darker on hover */
+}
+
+/* Optional: Track on hover */
+::-webkit-scrollbar-track:hover {
+  background: #d3e6c1; /* Slightly darker track on hover */
+}
 
 @media screen and (max-width: 940px) {
   h1 {
@@ -68,5 +99,4 @@ h2 {
   h2 {
     font-size: 1.5rem;
   }
-  
 }

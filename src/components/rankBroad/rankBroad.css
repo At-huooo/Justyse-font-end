@@ -4,7 +4,6 @@
   height: 100%;
   overflow: hidden;
   box-shadow: 0.5px 0.7px 12px rgba(0, 0, 0, 0.25);
-  overflow: auto;
   table-layout: fixed;
 }
 
@@ -46,7 +45,7 @@
 .rank td {
   color: black;
   text-align: center;
-  padding: 1.03rem 2rem;
+  padding: 1rem;
   transition: height 0.3s ease;
 }
 
@@ -57,10 +56,12 @@
 }
 .rank th,
 .rank td {
-  max-width: 25%;
   width: 25%;
 }
 
+.rank th{
+  padding: .75rem 0;
+}
 
 .nav_tab button {
   margin: 0.3rem;
@@ -104,8 +105,8 @@
 .rankBtn {
   background-color: var(--accent-color-dark);
   color: white;
-  padding: 0.5rem 0;
-  height: 30%;
+  padding: 1rem 0;
+  height: auto;
   width: 100%;
   border-radius: 1rem;
   cursor: pointer;
@@ -120,7 +121,7 @@
 }
 
 .sideBottom {
-  height: 57%;
+  height: 51%;
   overflow: auto;
 }
 
@@ -141,16 +142,18 @@
 }
 
 .downloadBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--accent-color-dark);
   color: white;
-  padding: 0.5rem 0;
-  height: 25%;
+  height: 30%;
   cursor: pointer;
   font-family: "Rubik", sans-serif;
   width: 100%;
   font-weight: 600;
-  margin: 0.5rem 0;
-  padding: 0.2rem;
+  margin: 0;
+  padding: 0;
   border: none;
   transition: all 0.3s ease;
 }
@@ -168,4 +171,25 @@
   color: var(--accent-color-darker);
   font-size: 1.5rem;
   margin: 15% 20%;
+}
+
+.downloadBtn span{
+  margin: 0 .2rem;
+}
+
+th.Position, td.Position {
+  width: 3rem;
+  text-align: center;
+}
+
+td.Lang {
+  width: 30rem;
+  text-align: center;
+}
+
+td.User {
+  width: 30rem;
+}
+td.User{
+  width: 10rem;
 }

@@ -1,11 +1,13 @@
 .Frame {
-  height: 100%;
+  border-radius: 10px;
+  height: 95%;
   padding: 0;
-  margin: 0;
-  width: 95%;
+  margin: 1rem;
+  overflow: hidden;
+  width: 90%;
   overflow-y: scroll;
   border-radius: 20px;
-  box-shadow: 0.5px 0.7px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
   position: relative;
 }
 
@@ -17,7 +19,7 @@ table {
 }
 
 thead {
-  background-color: var(--accent-color-dark);
+  background-image: linear-gradient(45deg,rgb(90, 134, 78) 0%, var(--accent-color-dark) 100%);
   color: white; /* Ensure text color is readable */
   text-align: center;
   position: sticky; /* Optional: makes the header sticky */
@@ -68,8 +70,8 @@ tbody td:last-child {
 }
 
 img {
-  width: 10.5rem;
-  height: 13.5rem;
+  width: 17.5rem;
+  height: 22.5rem;
 }
 
 .no-data {
@@ -101,7 +103,7 @@ tr {
   width: 100%;
 }
 
-.addItem {
+.Frame .addItem {
   position: absolute;
   bottom: 1.5rem;
   border-radius: 50%;
@@ -110,11 +112,12 @@ tr {
   font-weight: bold;
   text-align: center;
   padding-top: 0.3rem;
-  background-color: var(--accent-color-dark);
+  background-image: linear-gradient(45deg, var(--accent-color-dark) 0%, rgb(100, 150, 88) 100%);
   color: white;
   right: 1.5rem;
   width: 3rem;
   height: 3rem;
+  transition: all .5s ease-in-out;
 }
 
 .Loading {
@@ -124,15 +127,16 @@ tr {
 
 
 .modeBtn{
+  z-index: -1;
   text-align: center;
   margin: 0;
   padding: .5rem .8rem;
   display: flex;
-  top: 3.5rem;
+  top: 5.5rem;
   z-index: 100;
   position: absolute;
   right: -2rem;
-  background-color: rgb(226, 252, 220);
+  background-image: linear-gradient(45deg, rgb(226, 252, 220) 0%, rgb(214, 253, 183) 100%);
   color: var(--accent-color-dark);
   width: 6rem;
   border-bottom: none;
@@ -140,14 +144,24 @@ tr {
   transform: rotate(-90deg);
   white-space: nowrap;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all .5s ease;
 }
 
 .two{
-  top: 10.5rem;
+  top: 12.5rem;
 }
 
-.active{
-  background-color: var(--accent-color-dark);
+.problemTable .active{
+  transition: all .5s ease;
+  background-image: linear-gradient(45deg, var(--accent-color-dark)0%, rgb(100, 150, 88) 100%);
   color: white;
+}
+
+.Frame .addItem.none{
+  transform: translateX(200%);
+}
+
+.no-data{
+  width: 100%;
+  height: 100%;
 }

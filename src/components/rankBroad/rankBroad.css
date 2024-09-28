@@ -1,8 +1,9 @@
 .rank {
+  margin: 0 0.6rem;
   border-radius: 1rem;
   width: 76%;
   height: 100%;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0.5px 0.7px 12px rgba(0, 0, 0, 0.25);
   table-layout: fixed;
 }
@@ -17,7 +18,7 @@
 .nav_tab {
   position: absolute;
   display: flex;
-  bottom: 0.7rem;
+  bottom: 0.2rem;
   border-radius: 1rem;
   width: auto;
   background-color: var(--accent-color-dark);
@@ -26,11 +27,17 @@
 }
 
 .rankFrame {
-  overflow-x: auto;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   display: flex;
   width: 100%;
   height: 95%;
+}
+
+.problemBubble {
+  color: var(--accent-color-darker);
+}
+
+.problemBubble.active {
 }
 
 .nav_tab div {
@@ -45,22 +52,20 @@
 .rank td {
   color: black;
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 0;
   transition: height 0.3s ease;
+  border-left: 1px solid #c7eeba;
 }
 
 .rank th:first-child,
 .rank td:first-child {
-  max-width: 25%;
-  width: 25%;
+  width: 30%;
+  border: none;
 }
 .rank th,
 .rank td {
-  width: 25%;
-}
-
-.rank th{
-  padding: .75rem 0;
+  padding: 1rem 0.5rem;
+  width: 30%;
 }
 
 .nav_tab button {
@@ -74,11 +79,6 @@
   height: 2em;
   border-radius: 10px;
   transition: all 0.3s ease;
-}
-
-.nav_tab button.active {
-  background-color: rgb(252, 240, 225);
-  color: var(--accent-color-darker);
 }
 
 .idHolder {
@@ -117,7 +117,6 @@
 .rank_side h3 {
   color: var(--accent-color-darker);
   margin: 0.5rem;
-  border-bottom: 1px solid var(--accent-color-light);
 }
 
 .sideBottom {
@@ -126,7 +125,7 @@
 }
 
 .idHolder div:hover {
-  background-color: #99be8d;
+  background-color: var(--accent-color-darker);
   color: white;
 }
 
@@ -162,34 +161,80 @@
   background-color: #5e8562;
 }
 
-.idHolder div.active{
-  background-color: #598849;
-  color: white;
-}
-
-.Loading{
+.Loading {
   color: var(--accent-color-darker);
   font-size: 1.5rem;
   margin: 15% 20%;
 }
 
-.downloadBtn span{
-  margin: 0 .2rem;
+.downloadBtn span {
+  margin: 0 0.2rem;
 }
 
-th.Position, td.Position {
-  width: 3rem;
+.problemRank th,
+.problemRank td {
   text-align: center;
+  padding: 1rem 0;
+  transition: height 0.3s ease;
 }
 
-td.Lang {
-  width: 30rem;
-  text-align: center;
+.problemRank th:first-child,
+.problemRank td:first-child {
+  width: 10%;
 }
 
-td.User {
-  width: 30rem;
+.problemRank .User {
+  width: 25%;
 }
-td.User{
-  width: 10rem;
+
+.problemRank .Lang {
+  width: 35%;
+}
+
+.problemRank .Points {
+  width: 20%;
+}
+
+.problemRank th.Status {
+  width: 18%;
+}
+
+.problemRank td {
+  width: 20%;
+}
+
+.problemRank .Time {
+  width: 25%;
+}
+.problemRank .Memory {
+  width: 25%;
+}
+
+.inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--accent-color-light);
+  margin: 0.3rem;
+  padding: 0 1rem;
+}
+
+.dropDown {
+  border: none;
+  background: none;
+}
+
+#allview td,
+#allview th {
+  width: 100%;
+}
+
+.idHolder div.active {
+  background-color: var(--accent-color-darker);
+  color: white;
+}
+
+.nav_tab button.active {
+  background-color: rgb(252, 240, 225);
+  color: var(--accent-color-darker);
 }

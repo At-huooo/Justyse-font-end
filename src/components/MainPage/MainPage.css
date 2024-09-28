@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Pixelify+Sans:wght@400..700&display=swap");
+.MainScreen {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.topBanner {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+  width: 100%;
+  height: 50%;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.topBanner h1 {
+  font-size: 7rem;
+  text-shadow: 0 0 2px #137e5a;
+  color: #D6EFD8;
+  margin: .5rem 0;
+}
+
+.topBanner h1 span{
+    text-shadow: none;
+}
+
+.topBanner h1 span {
+  color: #5d8561;
+}
+
+.topBanner h1 span:first-child {
+  color: #417254;
+}
+
+.topBanner h1 span:nth-child(3) {
+  color: var(--accent-color-light);
+}
+
+.topBanner p {
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  padding: 0.1rem;
+  width: 47%;
+  height: 2rem;
+  background-color: var(--accent-color-dark);
+  margin: 1rem 0;
+}
+
+.quickAccess {
+  width: 100%;
+  height: 45%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ShortcutHolder{
+  width: 100%;
+  height : 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 0 .5rem;
+  transition: all .4s ease;
+}
+
+.ShortcutHolder p{
+  margin: 0 1rem;
+}
+
+.ShortcutHolder.one, .ShortcutHolder.one h3{
+  background-color: #517465;
+  color: var(--accent-light-2);
+}
+
+.ShortcutHolder.two{
+  background-color: #C9DABF;
+}
+
+.ShortcutHolder.two p{
+  color: #4d7451;
+}
+
+.ShortcutHolder.three, .ShortcutHolder.three h3{
+  background-color: #658147;
+  color: var(--accent-color-light)
+}
+
+
+.ShortcutHolder.four, .ShortcutHolder.four h3{
+  background-color: #ACD793;
+  color: #3a583d;
+
+}
+
+.ShortcutHolder.four p{
+  color: #59865d;
+}
+
+.quickAccess .icons{
+  margin-bottom: 1rem;
+  width: 3.8rem;
+  height: 3.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  /* border: 4px solid var(--accent-color-dark); */
+  border-radius: 50%;
+}
+
+.quickAccess h3{
+  color: var(--accent-color-darker);
+}
+
+.quickAccess .Link{
+  width: 20%;
+}
+
+.ShortcutHolder:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #0000001f;
+}
+
+.userGuide{
+  margin-bottom: 5rem;
+}

@@ -74,6 +74,8 @@ h4 {
   border: none;
 }
 
+
+
 .addDocs {
   position: absolute;
   top: 3.8rem;
@@ -139,6 +141,15 @@ h4 {
   width: 100%;
 }
 
+.LangAll{
+  margin-left: 1rem;
+  color: var(--accent-color-dark);
+}
+
+.LangAll input[type="checkbox"] {
+  display: none;
+}
+
 .langchoice {
   display: flex;
   flex-wrap: wrap;
@@ -201,12 +212,12 @@ h5 {
   color: var(--accent-color-dark);
 }
 
-.lang input[type="checkbox"] {
+input[type="checkbox"] {
   display: none;
 }
 
 /* Create a custom checkbox */
-.lang input[type="checkbox"] + span {
+ input[type="checkbox"] + span {
   width: 20px;
   height: 20px;
   border: 2px solid #509c7c;
@@ -217,7 +228,7 @@ h5 {
 }
 
 /* Style the checkmark/indicator */
-.lang input[type="checkbox"] + span::after {
+input[type="checkbox"] + span::after {
   content: "";
   position: absolute;
   left: 5px;
@@ -231,12 +242,12 @@ h5 {
 }
 
 /* Show the checkmark when checked */
-.lang input[type="checkbox"]:checked + span::after {
+ input[type="checkbox"]:checked + span::after {
   opacity: 1;
 }
 
 /* Optional: Add a hover effect */
-.lang input[type="checkbox"] + span:hover {
+ input[type="checkbox"] + span:hover {
   background-color: #f0f0f0;
 }
 
@@ -485,7 +496,7 @@ input[type="number"] {
 .popHolder {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 115%;
   z-index: 100;
   display: flex;
   top: 0;
@@ -544,7 +555,7 @@ input[type="number"] {
 /* Style the custom file input label */
 .custom-file-label {
   position: absolute;
-  top: 6.8rem;
+  top: 5.8rem;
   right: 2.5rem;
   display: inline-block;
   padding: 0.3rem 0.8rem;
@@ -755,4 +766,8 @@ input[type="number"] {
 
 .dragging{
   background-color: var(--accent-color-light);
+}
+
+.success-message{
+  color: #509c7c;
 }

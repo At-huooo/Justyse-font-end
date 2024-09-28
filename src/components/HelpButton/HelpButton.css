@@ -1,0 +1,13 @@
+.helpBtn{
+    position: fixed;
+    top: .5rem; 
+    right: .5rem;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.1rem;
+    padding: .3rem .7rem;
+    background-color: var(--accent-color-dark);
+    z-index: 10;
+}

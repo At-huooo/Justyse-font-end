@@ -1,0 +1,144 @@
+.base{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.LoginSquare{
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    font-size: 1.3rem;
+    width: 80%;
+    height: 90%;
+    background-image: linear-gradient(45deg, var(--accent-color-netrual) 0%, var(--accent-color-light) 100%);
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.219);
+}
+
+.LoginSquare h2{
+    margin: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.LoginSquare p{
+    text-align: center;
+    font-size: .9rem;
+}
+
+
+.Login, .Signup {
+    right: 0rem;
+    position: absolute;
+    padding: 1rem;
+    height: 100%;
+    width: 40%;
+    transition: transform 0.5s ease-in-out;
+  }
+
+.Signup.none {
+    transform: translateY(100%);
+  }
+  
+  /* Visible state for the Signup form */
+  .Signup {
+    transform: translateY(0);
+  }
+  
+  /* Hidden state for the Login form */
+  .Login.none {
+    transform: translateY(-100%);
+  }
+  
+  /* Visible state for the Login form */
+  .Login {
+    transform: translateY(0);
+  }
+
+.Banner{
+    z-index: 10;
+    border-radius: 1rem 0 0 1rem;
+    width: 60%;
+    height: 100%;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    border: 1px solid var(--accent-color-dark);
+    box-shadow: 0 0 0 2px var(--accent-color-dark);
+}
+
+label{
+    margin: 1rem 0;
+    text-align: start;
+}
+
+.LoginSquare a{
+    text-decoration: underline;
+    transition: all 0.2s ease;
+    color: var(--accent-color-dark)
+}
+
+.LoginSquare a:hover{
+    color: #6bb871
+}
+
+.loginBtn{
+    transition: all 0.2s ease;
+    margin-top: 8rem;
+    width: 100%;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    background-image: linear-gradient(45deg, #306352 0%, var(--accent-color-netrual) 100%);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Rubik", sans-serif;
+}
+
+.signupBtn{
+    transition: all 0.2s ease;
+    margin-top: 9rem;
+    width: 100%;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    background-image: linear-gradient(45deg, #306352 0%, var(--accent-color-netrual) 100%);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Rubik", sans-serif;
+}
+
+.back{
+    top: 2.4rem;
+    position: absolute;
+}
+
+.LoginSquare label input{
+    color: var(--accent-color-dark);
+}
+
+.LoginSquare input[type="text"], .LoginSquare input[type="password"]{
+    background-color: white;
+    color: var(--accent-color-dark);
+}
+
+.LoginSquare .inline{
+    padding: 0;
+    border: none;
+}
+
+.inline {
+    align-items: end;
+}

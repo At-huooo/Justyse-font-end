@@ -45,16 +45,14 @@
 .Submit .description {
   margin: 0 2rem;
   width: 95%;
-  height: auto;
-}
-
-.Submit .description *{
-  color: var(--accent-color-dark);
+  height: 100%;
 }
 
 .problemRender {
-  width: 100%;
-  height: auto;
+  margin: 0 2rem;
+  display: flex;
+  width: 95%;
+  height: 100%;
 }
 
 .dividerSubmit {
@@ -75,13 +73,13 @@
 }
 
 .editor {
-  width: 83%;
+  width: 80%;
   height: 100%;
 }
 
 .langCom {
   height: 100%;
-  width: 17%;
+  width: 20%;
   display: flex;
   flex-wrap: wrap;
 }
@@ -132,11 +130,11 @@
   margin-bottom: 0.4rem;
 }
 
-.langbtns{
+.langbtns {
   border: none;
   font-size: 1rem;
-  margin: .2rem .3rem;
-  padding: .3rem .5rem;
+  margin: 0.2rem 0.3rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 10px;
   transition: all 0.3s ease;
   font-weight: 500;
@@ -153,18 +151,18 @@
   color: white;
 }
 
-.langcontain{
+.langcontain {
   width: 100%;
   height: 15rem;
-  margin: .2rem;
+  margin: 0.2rem;
   overflow-y: scroll;
 }
 
-.compilerbtns{
+.compilerbtns {
   border: none;
   font-size: 1rem;
-  margin: .2rem .3rem;
-  padding: .3rem .5rem;
+  margin: 0.2rem 0.3rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 10px;
   transition: all 0.2s ease;
   background-color: #eceab2;
@@ -178,19 +176,19 @@
   background-color: #e7f184;
 }
 
-.dividerSubmit.head{
-  margin-top: .5rem;
+.dividerSubmit.head {
+  margin-top: 0.5rem;
 }
 
-.Submit .headTitle{
+.headTitle {
   font-size: 1.5rem;
-  font-family:Verdana, Tahoma, sans-serif;
+  font-family: Verdana, Tahoma, sans-serif;
   font-weight: 600;
   margin: 1rem 0;
   color: var(--accent-color-netrual);
 }
 
-.Submit .submitbtn{
+.submitFrame .submitbtn {
   position: absolute;
   bottom: -0.3rem;
   font-size: 1.05rem;
@@ -198,13 +196,90 @@
   right: 1rem;
   border: none;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-  padding: .5rem;
+  padding: 0.5rem;
   color: rgb(36, 82, 30);
   border-radius: 5px;
   margin: 1rem 0;
   transition: all 0.3s ease;
 }
 
-.Submit .submitbtn:hover{
+.Submit .submitbtn:hover {
   background-color: #d3eea5;
+}
+
+.Submit .BtnsSide {
+  margin: 1rem;
+  text-align: center;
+  width: 20%;
+  height: 90%;
+}
+
+.Submit .BtnsSide .ViewBtns *{
+  color: var(--accent-color-dark);
+}
+
+.Submit .BtnsSide .ViewBtns:hover *{
+  color: var(--accent-color-light);
+}
+
+.Submit .ViewBtns:hover {
+  background-color: var(--accent-color-dark);
+  color: white;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.301);
+}
+
+.compilerContain {
+  width: 100%;
+  height: 9rem;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.ProblemSide {
+  padding: 1rem 0;
+  width: 80%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.Submit .ViewBtns {
+  padding: 0.5rem;
+  background-color: var(--accent-color-light);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.description * {
+  margin: 1rem 0;
+}
+
+.description code {
+  background-color: var(--accent-color-light);
+  color: var(--accent-color-dark);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.description h1,
+.description h2,
+.description h3,
+.description h4,
+.description h5,
+.description h6 {
+  color: var(--accent-color-darker);
+}
+
+.description p,
+.description li,
+.description a,
+.description span,
+.description strong,
+.description ul {
+  color: #5a9b77;
+}
+
+.fullsize{
+  width:100%;
+  height: 100%;
 }

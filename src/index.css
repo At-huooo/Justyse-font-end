@@ -1,12 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
   --primary-color: #fff4e7;
   --secondary-color: #cadabf;
   --accent-color-darker: #1a4d2e;
-  --accent-color-light: #bdd2b6;
+  --accent-color-light: hsl(105, 24%, 77%);
   --accent-color-dark: #4f6f52;
   --accent-color-lighter: rgba(245, 255, 250, 1);
   --accent-color-netrual: #509c7c;
+  --accent-light-1: #D8EFD3;
+  --accent-light-2: #95D2B3;
+  --accent-light-3: #F1F8E8;
+  --accent-dark-1: #75A47F;
 }
 * {
   scrollbar-width: thin; /* Options: auto, thin, none */
@@ -37,9 +42,14 @@ h2 {
   font-size: 2rem;
 }
 
+button{
+  min-width: 2rem;
+  min-height: 1rem;
+}
+
 .container {
   width: 93%;
-  padding: 1rem;
+  padding: .5r  em;
   height: 35rem;
   margin: 1rem 6rem;
   padding-right: 0;
@@ -99,4 +109,44 @@ h2 {
   h2 {
     font-size: 1.5rem;
   }
+}
+
+.errorPopup{
+  z-index: 10;
+  margin: auto;
+  position: absolute;
+  border-radius: 1rem;
+  text-align: center;
+  height: 17rem;
+  width: 25rem;
+  background-color: #edffdc;
+  overflow: hidden;
+}
+
+.upperLine{
+  background-color: #1a4d2e;
+  width: 100%;
+  padding: 0 .5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 2.3rem;
+}
+
+.errorPopup .errorMessage{
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--accent-color-dark);
+}
+
+.CloseBtn{
+  background-color: #507514;
+  border: none;
+  padding: .25rem;
+  border-radius: 5px;
+}
+.CloseBtn *{
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+
 }

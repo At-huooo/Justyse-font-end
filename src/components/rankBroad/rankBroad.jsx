@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import 'boxicons';
+import "boxicons";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./RankBroad.css";
 
 export default function () {
-  const apiUrl = "https://barely-aware-walrus.ngrok-free.app";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQGFkbWluIiwiZXhwIjoxNzI0ODc4NjM2fQ.dH2fsgyEjsIaf-S4KO6Ilp5PCQASUlV_k-nCvOLY7ik";
+  const apiUrl = localStorage.getItem("apiUrl");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const problemName = useParams().problemName;
+  const problemId = useParams().problemId;
   const itemsPerPage = 9;
   const maxPageButtons = 6; // Maximum number of page buttons to display
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,19 +18,13 @@ export default function () {
   const [problemsDetail, setProblemsDetail] = useState([]);
   const [clickedItemId, setClickedItemId] = useState(null);
   const [clickedItemIndex, setClickedItemIndex] = useState(null);
+  const [isCollapsed, setIsCollapsed] = useState(true); // State for collapsible section
   const [Loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(
     "No leaderbroad choosen yet."
   );
-
+  const [temptitle, setTemptitle] = useState("");
   const totalPages = Math.ceil(rankData.length / itemsPerPage);
-
-  // const onClickedAll = () => {
-  //   setClickedAll(true);
-  // };
-  // const offClickedAll = () => {
-  //   setClickedAll(false);
-  // };
 
   const ChangePage = (page) => {
     setCurrentPage(page);
@@ -116,12 +113,12 @@ export default function () {
     }
   };
 
-  const downloadstatic = async (id, Name) => {
+  const downloadstatic = async () => {
     try {
       const res = await axios.get(
-        id === "@all"
+        clickedItemId === "@all"
           ? `${apiUrl}/api/problems/statics?to_file=true&redirect=false&download=true`
-          : `${apiUrl}/api/problem/${id}/statics?to_file=true&redirect=false&download=true`,
+          : `${apiUrl}/api/problem/${clickedItemId}/statics?to_file=true&redirect=false&download=true`,
         {
           headers: {
             "ngrok-skip-browser-warning": "true",
@@ -144,7 +141,9 @@ export default function () {
       // Create a temporary anchor element
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${id === "@all" ? Name : "All"}_data.csv`; // Set the desired file name
+      a.download = `${
+        clickedItemId === "@all" ? "All" : `${temptitle}`
+      }_data.csv`; // Set the desired file name
       document.body.appendChild(a);
       a.click();
       // Clean up
@@ -156,7 +155,16 @@ export default function () {
   };
 
   useEffect(() => {
+    if(token === "")return navigate("/");
     getProblems();
+  }, []);
+
+  useEffect(() => {
+    if (problemId) {
+      render(problemId);
+      setClickedItemId(problemId);
+      setTemptitle(problemName);
+    }
   }, []);
 
   return (
@@ -197,7 +205,7 @@ export default function () {
         <div className="rank">
           {rankData.length > 0 ? (
             clickedItemId === "@all" ? (
-              <table>
+              <table id="allview">
                 <thead>
                   <tr>
                     <th>User</th>
@@ -209,7 +217,6 @@ export default function () {
                 </thead>
                 <tbody>
                   {rankData.map((row, rowIndex) => {
-                    console.log({ clickedItemId, row });
                     return (
                       <tr key={rowIndex}>
                         {row.map((cell, cellIndex) => (
@@ -221,33 +228,33 @@ export default function () {
                 </tbody>
               </table>
             ) : (
-              <table>
+              <table className="problemRank">
                 <thead>
                   <tr>
                     <th className="Position">Rank</th>
                     <th className="User">User</th>
                     <th className="Lang">Language</th>
-                    <th>Points</th>
-                    <th>Status</th>
-                    <th>Time (seconds)</th>
-                    <th>Memory - peak</th>
+                    <th className="Points">Points</th>
+                    <th className="Status">Status</th>
+                    <th className="Time">Time (seconds)</th>
+                    <th className="Memory">Memory - peak</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rankData.map((item, index) => {
-                    console.log({ clickedItemId, item });
                     return (
                       <tr key={index}>
-                        <td className="Position">{index + 1}</td> 
+                        <td className="Position">{index + 1}</td>
                         <td className="User">{item.by}</td>
                         <td className="Lang">
-                          {item.lang[0]} | {item.lang[1]}
+                          {item.lang[0]} ({item.lang[1]})
                         </td>
-                        <td>{item.result?.point}</td>
-                        <td>{item.result?.status}</td>
-                        <td>{Math.ceil(item.result?.time * 1000) / 1000}</td>
-                        <td>{item.result?.memory[0]}</td>
-                        <td>{item.result?.memory[1]}</td>
+                        <td className="Points">{item.result?.point}</td>
+                        <td className="Status">{item.result?.status}</td>
+                        <td className="Time">
+                          {Math.ceil(item.result?.time * 1000) / 1000}
+                        </td>
+                        <td className="Memory">{item.result?.memory[1]}</td>
                       </tr>
                     );
                   })}
@@ -256,66 +263,85 @@ export default function () {
             )
           ) : (
             <p className="Loading">
-              {loadingMessage} <box-icon type='solid' color="#4F6F52" name='message-square-x'></box-icon>
+              {loadingMessage}{" "}
+              <box-icon
+                type="solid"
+                color="#4F6F52"
+                name="message-square-x"
+              ></box-icon>
             </p>
           )}
         </div>
         <div className="rank_side">
           <h4 className="rankTitle">
-            Rank -{" "}
-            {clickedItemId === "@all"
-              ? "All"
-              : problemsDetail[clickedItemIndex]?.title}
+            Rank - {clickedItemId === "@all" ? "All" : temptitle}
           </h4>
           <div className="rankBtn">
             <button
               className="downloadBtn"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent triggering the div's onClick
-                downloadstatic(
-                  clickedItemId,
-                  problemsDetail[clickedItemIndex]?.title
-                );
+                downloadstatic();
               }}
             >
               <span> Download </span>
               <box-icon name="download" type="solid" color="#ffffff"></box-icon>
             </button>
           </div>
-          <h3>Problem </h3>
-          <div className="sideBottom">
-            <div className="idHolder">
-              <div
-                className={`${clickedItemId === "@all" ? "active" : ""}`}
-                onClick={async () => {
+          <div className="inline">
+            <h3>Problem </h3>
+            <button
+              className="dropDown"
+              onClick={() => {
+                setIsCollapsed(!isCollapsed);
+              }}
+            >
+              {isCollapsed ? (
+                <box-icon color="#1a4d2e" name="down-arrow" type="solid" size="17px"></box-icon>
+              ) : (
+                <box-icon color="#1a4d2e" type="solid" name="left-arrow" size="17px"></box-icon>
+              )}
+            </button>
+          </div>
 
-                  await render("@all");
-                  setClickedItemId("@all");
-                }}
-              >
-                All Problem
-              </div>
-              {problemsDetail.map((item, index) => (
+          {!isCollapsed && (
+            <div className="sideBottom">
+              <div className="idHolder">
                 <div
-                  className={`${
-                    clickedItemId === item.id // && !clickedAll ? "active" : ""
-                  }`}
-                  key={item.id}
-                  onClick={async (e) => {
-                    // offClickedAll();
-                    // setClickedAll(false)
-                    await render(item.id);
-                    setClickedItemId(item.id);
-                    setClickedItemIndex(index);
+                  className={`${clickedItemId === "@all" ? "active" : ""}`}
+                  onClick={async () => {
+                    await render("@all");
+                    setClickedItemId("@all");
+                    setTemptitle("");
                   }}
                 >
-                  {item.title}
+                  All Problem
                 </div>
-              ))}
+                {problemsDetail.map((item, index) => (
+                  <div
+                    className={`${
+                      clickedItemId === item.id
+                        ? "active problemBubble"
+                        : "problemBubble"
+                    }`}
+                    key={item.id}
+                    onClick={async (e) => {
+                      // offClickedAll();
+                      // setClickedAll(false)
+                      await render(item.id);
+                      setClickedItemId(item.id);
+                      setClickedItemIndex(index);
+                      setTemptitle(item.title);
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
-};
+}

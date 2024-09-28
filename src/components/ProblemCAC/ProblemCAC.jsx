@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BiSolidTrashAlt } from "react-icons/bi";
-import "../ProblemCreate/ProblemCreate.css";
+import "./ProblemCAC.css";
+import { useParams, useNavigate } from "react-router-dom";
 import { IoSaveSharp } from "react-icons/io5";
 import { FaUpload } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
@@ -9,14 +10,15 @@ import "boxicons";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 
-export default function () {
-  const apiUrl =
-    "https://barely-aware-walrus.ngrok-free.app";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQGFkbWluIiwiZXhwIjoxNzI0ODc4NjM2fQ.dH2fsgyEjsIaf-S4KO6Ilp5PCQASUlV_k-nCvOLY7ik";
-  const id = localStorage.getItem("id");
 
-  const [loading, setLoading] = useState(true);
+
+export default function () {
+  const apiUrl = localStorage.getItem("apiUrl");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const { problemId } = useParams();
+
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [time, setTime] = useState(0);
   const [point_per_testcase, setPoint_per_testcase] = useState(1);
@@ -36,12 +38,14 @@ export default function () {
   const [judgers, setJudger] = useState("");
   const [inpName, setInpName] = useState("");
   const [outName, setOutName] = useState("");
+  const [successMessage, setSuccesMessage] = useState("");
 
   // function getLangID(name) {
-  //   return upportedLang.find((lang) => lang.name === name)?.id  
+  //   return upportedLang.find((lang) => lang.name === name)?.id
   // }
 
-  async function getData() {
+  const getLang = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${apiUrl}/api/declare/language`, {
         headers: {
@@ -53,21 +57,31 @@ export default function () {
         throw new Error(`GET "languages" error: ${response.data}`);
       }
       const result = response.data;
-      const langs = []
-      for (let lang of result.all) 
+      const langs = [];
+      for (let lang of result.all)
         langs.push({
           id: lang,
-          name: result[lang].name
-        })
+          name: result[lang].name,
+        });
       setsupportedLang(langs);
       console.log(result);
+      setLoading(false);
     } catch (error) {
       return void console.error(error);
     }
+  };
+
+  useEffect(() => {
+    console.log("id", problemId);
+    getLang();
+  }, []);
+
+  async function getData() {
+    setLoading(true);
 
     try {
       const link = await axios.get(
-        `${apiUrl}/api/problem/${id}/docs?redirect=False`,
+        `${apiUrl}/api/problem/${problemId}/docs?redirect=False`,
         {
           headers: {
             "ngrok-skip-browser-warning": "true",
@@ -75,12 +89,12 @@ export default function () {
           },
         }
       );
-      
+
       if (link.status > 300 || link.status < 200) {
         if (link.status === 404) {
           console.log("There is no docs");
         } else {
-          throw new Error(`GET /problem/${id} error: ${link.data}`);
+          throw new Error(`GET /problem/${problemId} error: ${link.data}`);
         }
       }
       const res = await axios.get(`${apiUrl}${link.data}`, {
@@ -96,7 +110,7 @@ export default function () {
     }
 
     try {
-      const res = await axios.get(`${apiUrl}/api/problem/${id}`, {
+      const res = await axios.get(`${apiUrl}/api/problem/${problemId}`, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: `Bearer ${token}`,
@@ -126,7 +140,10 @@ export default function () {
   }
 
   useEffect(() => {
-    getData();
+    if (token === "") return navigate("/");
+    if (problemId !== "create") {
+      getData();
+    }
   }, []);
 
   const Timechange = (event) => {
@@ -166,8 +183,17 @@ export default function () {
       return updatedLanguages;
     });
   };
+
   const Judger = (event) => {
     setJudger(event.target.value);
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      setSelectedLanguages(supportedLang.map((lang) => lang.id));
+    } else {
+      setSelectedLanguages([]);
+    }
   };
 
   const submissionType = (event) => {
@@ -183,7 +209,7 @@ export default function () {
       <label key={index} className="lang">
         <input
           type="checkbox"
-          value={language.id}
+          value={language.name}
           checked={selectedLanguages.includes(language.id)}
           onChange={(e) => {
             updateLanguage(e);
@@ -226,8 +252,8 @@ export default function () {
     setTitle(e.target.value);
   };
 
-  const handlePointsChange = (e) => {
-    setPoint_per_testcase(e.target.value);
+  const handlePointsChange = (event) => {
+    setPoint_per_testcase(event.target.value);
   };
 
   const testcaseAmount = (event) => {
@@ -267,6 +293,121 @@ export default function () {
     }
   };
 
+  const handleCreate = async () => {
+    if (
+      !title ||
+      !question ||
+      !TClength ||
+      !subType ||
+      !selectedLanguages ||
+      !time ||
+      !memo ||
+      !point_per_testcase ||
+      !uploadedZip ||
+      !inpName ||
+      !outName
+    ) {
+      setWarningMessage("All fields are required.");
+      return;
+    }
+    const data = {
+      title: title,
+      description: question,
+      total_testcases: TClength,
+      test_type: subType,
+      test_name: [inpName, outName],
+      accept_language: selectedLanguages,
+      limit: {
+        time: time,
+        memory: memo,
+      },
+      mode: {
+        mode: 0,
+        case: true,
+        trim_endl: false,
+      },
+      point_per_testcase: point_per_testcase,
+      judger: judgers,
+      roles: ["@everyone"],
+    };
+
+    let id = "";
+
+    try {
+      const res = await axios.post(`${apiUrl}/api/problem/`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status > 300 || res.status < 200) {
+        throw new Error(res.data);
+      }
+
+      console.log("Success:", res.data);
+      id = res.data.id;
+    } catch (error) {
+      setWarningMessage("Uploading Error " + error);
+      return console.error(`POST /problem error: ${error}`);
+    }
+
+    if (uploadedFile)
+      try {
+        const form_data = new FormData();
+        form_data.append("file", uploadedFile);
+
+        const res = await axios.post(
+          `${apiUrl}/api/problem/${id}/docs`,
+          form_data,
+          {
+            headers: {
+              "Content-Type": "application/pdf",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status > 300 || res.status < 200) {
+          throw new Error(res.data);
+        }
+
+        console.log("Success:", res.data);
+        setWarningMessage("");
+      } catch (error) {
+        setWarningMessage("Uploading Docs Error " + error);
+        console.error(`POST /problem/${id}/docs error: ${error}`);
+      }
+
+    if (uploadedZip) {
+      try {
+        const form_data = new FormData();
+        form_data.append("file", uploadedZip);
+        const response = await axios.post(
+          `${apiUrl}/api/problem/${id}/testcases`,
+          form_data,
+          {
+            headers: {
+              "Content-Type": "application/zip",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status > 300 || response.status < 200) {
+          throw new Error(response.data);
+        }
+
+        setCreated(true);
+        console.log("Upload successful:", response.data);
+        setWarningMessage("");
+      } catch (error) {
+        setWarningMessage("Uploading Zip Error " + error);
+        console.error(`POST /problem/${id}/testcases error: ${error}`);
+      }
+    }
+  };
+
   const handleSave = async () => {
     const data = {
       title: title,
@@ -291,22 +432,28 @@ export default function () {
 
     // let id = "";
     try {
-      const res = await axios.patch(`${apiUrl}/api/problem/${id}`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.patch(
+        `${apiUrl}/api/problem/${problemId}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.status > 300 || res.status < 200) {
-        throw new Error(`PATCH /problem/${id} error: ${res.data}`);
+        throw new Error(`PATCH /problem/${problemId} error: ${res.data}`);
       }
 
       console.log("Success:", res.data);
       setWarningMessage("");
+      setSuccesMessage("Problem updated successfully.");
       // id = res.data.id;
     } catch (error) {
       setWarningMessage("Uploading Error " + error);
+      setSuccesMessage("");
       console.error(error);
     }
 
@@ -316,7 +463,7 @@ export default function () {
         form_data.append("file", uploadedFile);
 
         const res = await axios.patch(
-          `${apiUrl}/api/problem/${id}/docs`,
+          `${apiUrl}/api/problem/${problemId}/docs`,
           form_data,
           {
             headers: {
@@ -327,12 +474,17 @@ export default function () {
         );
 
         if (res.status > 300 || res.status < 200) {
-          throw new Error(`PATCH /problem/${id}/docs error: ${res.data}`);
+          throw new Error(
+            `PATCH /problem/${problemId}/docs error: ${res.data}`
+          );
         }
 
         console.log("Success:", res.data);
+
         setWarningMessage("");
+        setSuccesMessage("Problem updated successfully.");
       } catch (error) {
+        setSuccesMessage("");
         setWarningMessage("Uploading Docs Error " + error);
         console.error(error);
       }
@@ -342,7 +494,7 @@ export default function () {
         const form_data = new FormData();
         form_data.append("file", uploadedZip);
         const response = await axios.patch(
-          `${apiUrl}/api/problem/${id}/testcases`,
+          `${apiUrl}/api/problem/${problemId}/testcases`,
           form_data,
           {
             headers: {
@@ -354,14 +506,16 @@ export default function () {
 
         if (response.status > 300 || response.status < 200) {
           throw new Error(
-            `POST /problem/${id}/testcases error: ${response.data}`
+            `POST /problem/${problemId}/testcases error: ${response.data}`
           );
         }
 
         setCreated(true);
         console.log("Upload successful:", response.data);
+        setSuccesMessage("Problem updated successfully.");
         setWarningMessage("");
       } catch (error) {
+        setSuccesMessage("");
         setWarningMessage("Uploading Zip Error " + error);
         console.error("Error uploading zip: ", error);
       }
@@ -370,7 +524,7 @@ export default function () {
 
   const deleteProblem = async () => {
     try {
-      const res = await axios.delete(`${apiUrl}/api/problem/${id}`, {
+      const res = await axios.delete(`${apiUrl}/api/problem/${problemId}`, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           Authorization: `Bearer ${token}`,
@@ -382,6 +536,7 @@ export default function () {
       console.log("Success:", res.data);
     } catch (error) {
       setWarningMessage("Delete Error " + error);
+      setSuccesMessage("");
       console.error("Error deleting problem: ", error);
     }
   };
@@ -444,6 +599,7 @@ export default function () {
             type="file"
             accept=".pdf"
             onChange={(e) => {
+              uploadDocs(e);
               handleInputChange();
             }}
           />
@@ -453,11 +609,7 @@ export default function () {
                 <p>File uploaded!</p>
               </div>
             )}
-            {/* {!uploadedFile && Pdf && (
-              <div className="Uploaded" onClick={togglePopup}>
-                <p>Image uploaded!</p>
-              </div>
-            )} */}
+
             <textarea
               className="textQ"
               placeholder="description here!"
@@ -502,8 +654,9 @@ export default function () {
                 className="tcn"
                 type="number"
                 value={TClength}
-                onChange={(e) => {
-                  handleInputChange();
+                onChange={(event) => {
+                  testcaseAmount(event);
+                  handleInputChange(event);
                 }}
               />
             </h4>
@@ -513,13 +666,24 @@ export default function () {
                 type="number"
                 className="ppt"
                 value={point_per_testcase}
-                onChange={() => {
-                  handleInputChange();
+                onChange={(event) => {
+                  handlePointsChange(event);
+                  handleInputChange(event);
                 }}
               />
             </div>
             <div className="langchoice">
-              <p>Accepting languages: </p>
+              <p>
+                Accepting languages:{"        "}
+                <label className="LangAll">
+                  <input
+                    type="checkbox"
+                    onChange={handleSelectAll}
+                    checked={selectedLanguages.length === supportedLang.length}
+                  ></input>
+                  <span></span> Select all
+                </label>
+              </p>
               <div className="langc">{renderLanguages()}</div>
             </div>
             <div className="divider"></div>
@@ -532,8 +696,9 @@ export default function () {
                     checked={subType === "file"}
                     name="submissionType"
                     value="file"
-                    onChange={(e) => {
-                      handleInputChange();
+                    onChange={(event) => {
+                      submissionType(event);
+                      handleInputChange(event);
                     }}
                   />
                   <span></span> <div>file</div>
@@ -544,8 +709,9 @@ export default function () {
                     name="submissionType"
                     value="std"
                     checked={subType === "std"}
-                    onChange={(e) => {
-                      handleInputChange();
+                    onChange={(event) => {
+                      submissionType(event);
+                      handleInputChange(event);
                     }}
                   />
                   <span></span> <div>std</div>
@@ -558,20 +724,21 @@ export default function () {
                 <input
                   e="number"
                   value={time}
-                  onChange={(e) => {
-                    handleInputChange();
+                  onChange={(event) => {
+                    Timechange(event);
+                    handleInputChange(event);
                   }}
                 />
               </div>
               <div className="memoryCon">
                 <h5>Memory limit</h5>
                 <input
-
                   placeholder="1024m"
                   type="text"
                   value={memo}
-                  onChange={() => {
-                    handleInputChange()
+                  onChange={(event) => {
+                    MemoryChange(event);
+                    handleInputChange(event);
                   }}
                 />
               </div>
@@ -599,7 +766,8 @@ export default function () {
                   onDragOver={DragOver}
                   onDragEnter={DragEnter}
                   onDragLeave={DragLeave}
-                  onDrop={(e) => {
+                  onDrop={(event) => {
+                    handleDrop(event);
                     handleInputChange();
                   }}
                 >
@@ -616,7 +784,8 @@ export default function () {
                       className="custom-file-input"
                       type="file"
                       accept=".zip"
-                      onChange={(e) => {
+                      onChange={(event) => {
+                        zipUpload(event);
                         handleInputChange();
                       }}
                     />
@@ -626,6 +795,9 @@ export default function () {
                         <box-icon name="no-entry" color="#ff9e65"></box-icon>
                         {warningMessage}
                       </div>
+                    )}
+                    {successMessage && (
+                      <div className="success-message">{successMessage}</div>
                     )}
                     {created && (
                       <div class="okay">Problem created successfully.</div>
@@ -638,27 +810,44 @@ export default function () {
         </div>
       </div>
       {changesMade && <p class="warning">Changes haven't been save.</p>}{" "}
-      <button
-        className="savebtn"
-        type="submit"
-        onClick={(e) => {
-          handleSave(e);
-          disableWarning(e);
-        }}
-      >
-        <IoSaveSharp /> Save
-      </button>
-      <Link to="/problems">
+      {problemId !== "create" ? (
+        <div>
+          <button
+            className="savebtn"
+            type="submit"
+            onClick={(e) => {
+              handleSave(e);
+              disableWarning(e);
+            }}
+          >
+            <IoSaveSharp /> Save
+          </button>
+
+          <Link to="/problems">
+            <button
+              className="savebtn kill"
+              type="submit"
+              onClick={(e) => {
+                deleteProblem(e);
+              }}
+            >
+              <FaTrash />
+            </button>
+          </Link>
+        </div>
+      ) : (
         <button
-          className="savebtn kill"
+          className="savebtn"
           type="submit"
           onClick={(e) => {
-            deleteProblem(e);
+            handleCreate(e);
+            disableWarning(e);
           }}
         >
-          <FaTrash />
+          {" "}
+          Create <IoSaveSharp />
         </button>
-      </Link>
+      )}
     </div>
   );
 }

@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Login from "../components/Login/Login";
+import MainPage from "../components/MainPage/MainPage";
 
 function Home() {
+  const token = localStorage.getItem("token");
   return (
-    <div>Home</div>
-  )
+    <div className="container">
+      {token ? <MainPage /> : <Login />}
+    </div>
+  );
 }
 
-export default Home
+export default Home;

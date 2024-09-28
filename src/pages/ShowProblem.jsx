@@ -1,10 +1,10 @@
 import React from 'react'
-import ProblemConfig from '../components/ProblemCAC/ProblemCAC'
+import RenderProblem from '../components/RenderProblem/RenderProblem'
 
 export default function () {
   return (
     <div className='container'>
-      <ProblemConfig />
+        <RenderProblem />
     </div>
   )
 }
